@@ -1,0 +1,157 @@
+<style>
+    .pwp { font-size: 30px; }
+</style>
+
+<p id="afis" class="pwp"> Aici se va afla index-ul tau <p>
+
+
+    <label>Varsta (ani):</label><br>
+    <input type="text" id="varsta"><br><br>
+    <label>Greutate (kg):</label><br>
+    <input type="text" id="greutate"><br><br>
+    <label>Inaltime (cm):</label><br>
+    <input type="text" id="inaltime"><br><br>
+
+    <label> Bifati daca suferiti de: </label><br><br>
+
+    <input type="checkbox" id="diabet">
+    <label> Diabet </label><br>
+
+    <input type="checkbox" id="pulmonar">
+    <label> Boli pulmonare </label><br>
+
+    <input type="checkbox" id="autoimun">
+    <label> Boli autoimune</label><br>
+
+    <input type="checkbox" id="alte">
+    <label> Alte afectiuni grave</label><br><br>
+
+    <label>De la 1 la 5, cat de bine va mentineti? </label><br>
+    <label>(sport + alimentatie)</label><br><br>
+
+    <input type="radio" id="s1" name="sport">
+    <label for="s1">1 </label>
+    <input type="radio" id="s2" name="sport">
+    <label for="s2">2 </label>
+    <input type="radio" id="s3" name="sport">
+    <label for="s3">3 </label>
+    <input type="radio" id="s4" name="sport">
+    <label for="s4">4 </label>
+    <input type="radio" id="s5" name="sport">
+    <label for="s5">5 </label><br><br>
+
+    <button onclick="myFunction()">Calculeaza</button>
+
+    <p id="rsp"><p>
+
+    <script>
+
+        function myFunction() {
+            var usu = Math.floor(Math.random() * 50) / 10.0 + 1.0;
+
+            var t1 = document.getElementById("greutate").value;
+            var t2 = document.getElementById("inaltime").value;
+            var t3 = document.getElementById("varsta").value;
+
+            var greutate = parseFloat(t1);
+            var inaltime = parseFloat(t2);
+            var varsta = parseFloat(t3);
+
+            var bmi = greutate / inaltime / inaltime * 100.0 * 100.0;
+
+            if(varsta - 20 < 0) varsta = 0;
+
+            if(varsta >= 20 && varsta <= 30)
+                usu = usu + (varsta - 20)* 0.3;
+
+            if(varsta >= 30 && varsta <= 40)
+                usu = usu + (varsta - 30)* 0.8 + 3;
+
+            if(varsta >= 40 && varsta <= 50)
+                usu = usu + (varsta - 40) * 1 + 11;
+
+            if(varsta >= 50)
+                usu = usu + (varsta - 50) * 1.5 + 21;
+
+
+            if(bmi > 25) usu = usu + (bmi - 25.0) * 4;
+
+            var ad2 = 0.0;
+            var ad = 0.0;
+
+            var nr = 0.0;
+
+            if (document.getElementById("diabet").checked == true)
+            {
+                ad2 = Math.floor(Math.random() * 50) / 10.0 + 30.0;
+                if(0.25 * usu > ad2) ad = ad + 0.25 * usu;
+                else ad = ad + ad2;
+                nr += 1.0;
+            }
+            if (document.getElementById("pulmonar").checked == true)
+            {
+                ad2 = Math.floor(Math.random() * 50) / 10.0 + 30.0;
+                if(0.25 * usu > ad2) ad = ad + 0.25 * usu;
+                else ad = ad + ad2;
+                nr += 1.0;
+            }
+            if (document.getElementById("autoimun").checked == true)
+            {
+                ad2 = Math.floor(Math.random() * 50) / 10.0 + 30.0;
+                if(0.25 * usu > ad2) ad = ad + 0.25 * usu;
+                else ad = ad + ad2;
+                nr += 1.0;
+            }
+            if (document.getElementById("alte").checked == true)
+            {
+                ad2 = Math.floor(Math.random() * 50) / 10.0 + 30.0;
+                if(0.25 * usu > ad2) ad = ad + 0.25 * usu;
+                else ad = ad + ad2;
+                nr += 1.0;
+            }
+
+            if(nr >= 2) usu += 10.0;
+            if(nr >= 3) usu += 20.0;
+            if(nr >= 4) usu += 35.0;
+
+            usu = usu + ad;
+
+
+            var radios = document.getElementsByName('sport');
+
+            for (var i = 0, length = radios.length; i < length; i++) {
+                if (radios[i].checked) {
+
+                    if(i == 1) usu = usu * 0.95;
+                    if(i == 2) usu = usu * 0.9;
+                    if(i == 3) usu = usu * 0.85;
+                    if(i == 4) usu = usu * 0.8;
+
+                    break;
+                }
+            }
+
+            usu = Math.round(usu * 100) / 100.0;
+
+            var paragraph = document.getElementById("afis");
+            //var text = document.createTextNode(toString(t3));
+            document.getElementById("afis").innerText = "";
+            paragraph.style.font.fontsize(50);
+            if(usu >= 100)
+            {
+                paragraph.style.color = "red";
+                paragraph.innerHTML = "Aproape sigur sa faceti o forma grava!";
+            }
+            else
+            {
+                paragraph.innerHTML = "Sansele sa luati o forma grava: " +  usu + "%";
+
+                paragraph.style.color = "green";
+                if(usu >= 40) paragraph.style.color = "orange";
+                if(usu >= 70) paragraph.style.color = "red";
+            }
+
+            document.getElementById("rsp").innerHTML = "Raspunsul se afla deasupra";
+        }
+
+    </script>
